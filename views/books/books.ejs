@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('../partials/head.ejs'); %>
+    </head>
+
+    <body>
+        <!--**********  Preloader start *************-->
+        <div id="preloader">
+            <div class="sk-three-bounce">
+                <div class="sk-child sk-bounce1"></div>
+                <div class="sk-child sk-bounce2"></div>
+                <div class="sk-child sk-bounce3"></div>
+            </div>
+        </div>
+        <!--******** Preloader end *********-->
+
+        <!--******** Main wrapper start ******-->
+        <div id="main-wrapper">
+            <!--********** Nav header start *********-->
+            <div class="nav-header">
+                <a href="index.html" class="brand-logo">
+                    <img class="logo-abbr" src="/images/logo.png" alt="" />
+                    <img class="logo-compact" src="/images/logo-text.png" alt="" />
+                    <img class="brand-title" src="/images/logo-text.png" alt="" />
+                </a>
+
+                <div class="nav-control">
+                    <div class="hamburger"><span class="line"></span><span class="line"></span><span class="line"></span></div>
+                </div>
+            </div>
+            <!--**********  Nav header end *********-->
+
+            <!--****** 
+            Header start ************-->
+            <%- include('../partials/header.ejs'); %>
+
+            <!--********** Header end ti-comment-alt*********-->
+
+            <!--********** Sidebar start *********-->
+            <%- include('../partials/sidebar.ejs'); %>
+
+            <!--********** Sidebar end ********-->
+
+            <!--********** Content body start *********-->
+            <div class="content-body">
+                <div class="container-fluid">
+                    <div class="form-head d-flex mb-5 align-items-start">
+                        <div class="input-group search-area d-inline-flex">
+                            <input type="text" class="form-control" id="searchBook" placeholder="Search here" />
+                            <div class="input-group-append">
+                                <span class="input-group-text" id="searchIcon" style="cursor: pointer"><i class="flaticon-381-search-2"></i></span>
+                            </div>
+                        </div>
+
+                        <button id="free_book" class="btn btn-danger ml-auto">Free</button>
+                        <button id="paid_book" class="btn btn-success ml-3">PAID</button>
+                        <div class="dropdown ml-3 d-inline-block">
+                            <div class="btn btn-outline-primary">Filter By:</div>
+                            <div class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="filterDataToggle">
+                                <i class="flaticon-381-controls-3 mr-2"></i> Select one
+                            </div>
+                            <div
+                                class="dropdown-menu dropdown-menu-left"
+                                id="filterDataMenu"
+                                x-placement="bottom-start"
+                                style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 55px, 0px)"
+                            >
+                                <button class="dropdown-item border-bottom" id="select_none" value="Select One">Select One</button>
+                                <button class="dropdown-item" id="title" value="Title">Title</button>
+                                <button class="dropdown-item" id="author" value="Author">Author</button>
+                                <button class="dropdown-item" id="edition" value="Edition">Edition</button>
+                                <button class="dropdown-item" id="language" value="Language">Language</button>
+                                <button class="dropdown-item" id="category_id" value="Category">Category</button>
+                                <button class="dropdown-item" id="isbn" value="ISBN">ISBN</button>
+                            </div>
+                        </div>
+                        <div class="dropdown ml-3 d-inline-block">
+                            <div class="dropdown ml-3 d-inline-block ml-auto">
+                                <div class="btn btn-outline-primary dropdown-toggle" id="newOltToggle" data-toggle="dropdown">Newest</div>
+                                <div class="dropdown-menu dropdown-menu-left">
+                                    <button class="dropdown-item" id="newest" value="-1">Newest</button>
+                                    <button class="dropdown-item" id="oldest" value="1">Old</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="row page-titles mx-0">
+                        <div class="col-sm-6 p-md-0">
+                            <div class="welcome-text">
+                                <h4>Hi, welcome back!</h4>
+                                <p class="mb-0">Your business dashboard template</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a href="javascript:void(0)">Layout</a>
+                                </li>
+                                <li class="breadcrumb-item active">
+                                    <a href="javascript:void(0)">Blank</a>
+                                </li>
+                            </ol>
+                        </div>
+                    </div> -->
+
+                    <div class="row" id="booksRender">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-6 col-md-4 col-sm-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="new-arrival-product">
+                                        <div class="new-arrivals-img-contnent">
+                                            <img class="img-fluid" src="images/product/Book-cover-page-7-CRC.png" alt="" />
+                                            <div class="img-backdrop"></div>
+                                            <div class="btn-box">
+                                                <div class="btn-group text-center">
+                                                    <a class="btn btn-outline-warning" role="button" href="/books/book-details" data-toggle="tooltip" data-placement="bottom" title="view book"
+                                                        ><i class="fa fa-eye"></i></a
+                                                    ><a class="btn btn-outline-warning" role="button" href="" data-toggle="tooltip" data-placement="bottom" title="read book"
+                                                        ><i class="fas fa-book-open"></i
+                                                    ></a>
+
+                                                    <a
+                                                        class="btn btn-outline-warning"
+                                                        role="button"
+                                                        href="/pdf/eng_grammar.pdf"
+                                                        data-toggle="tooltip"
+                                                        data-placement="bottom"
+                                                        title="download this book"
+                                                        ><i class="fa fa-download"></i
+                                                    ></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="new-arrival-content text-left mt-3">
+                                            <h4><i class="fas fa-book"></i> Book Title Here</h4>
+                                            <h6><i class="fas fa-user"></i> author name</h6>
+                                            <h6><strong>Edition</strong>: 6th</h6>
+                                            <h6><strong>Language</strong>>: English</h6>
+                                            <ul class="star-rating float-right">
+                                                <li><i class="fa fa-star"></i></li>
+                                                <li><i class="fa fa-star"></i></li>
+                                                <li><i class="fa fa-star"></i></li>
+                                                <li><i class="fas fa-star-half-alt"></i></li>
+                                                <li><i class="fas fa-star-half-alt"></i></li>
+                                            </ul>
+                                            <span class="price float-left"><span class="badge badge-lg light badge-danger">Free</span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-12"></div>
+                    </div>
+                    <div class="row">
+                        <div class="d-md-flex d-block align-items-center mt-4" id="paginationText"></div>
+                    </div>
+                </div>
+            </div>
+            <!--********** Content body end *********-->
+        </div>
+        <!--********** Main wrapper end *********-->
+
+        <!--********** Scripts *********-->
+        <!-- Required vendors -->
+        <%- include('../partials/scripts.ejs'); %>
+
+        <!-- Apex Chart -->
+        <script src="/vendor/apexchart/apexchart.js"></script>
+
+        <script src="/vendor/highlightjs/highlight.pack.min.js"></script>
+        <script src="/js/ajax/userConfig.js"></script>
+        <script src="/js/ajax/ajaxBooks.js"></script>
+        <!-- Circle progress -->
+    </body>
+</html>

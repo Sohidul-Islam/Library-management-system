@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+    <head>
+        <%- include('../partials/head.ejs'); %>
+    </head>
+
+    <body class="h-100">
+        <div class="authincation h-100">
+            <div class="container h-100">
+                <div class="row justify-content-center h-100 align-items-center">
+                    <div class="col-md-6">
+                        <div class="authincation-content">
+                            <div class="row no-gutters">
+                                <div class="col-xl-12">
+                                    <div class="auth-form">
+                                        <h4 class="text-center mb-4">Verify your account</h4>
+                                        <form id="verify">
+                                            <div class="form-group">
+                                                <label class="mb-1"><strong>Email</strong></label>
+                                                <input type="email" class="form-control" id="email" name="email" />
+                                            </div>
+                                            <div class="form-group">
+                                                <div id="emailError" class="text-left" style="font-weight: bold; text-align: center; font-size: 10pt"></div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="mb-1"><strong>Token</strong></label>
+                                                <input name="token" id="token" type="text" class="form-control" placeholder="Enter verified token here..." />
+                                            </div>
+                                            <div class="text-center mt-4">
+                                                <button id="btn-verify" type="button" class="btn btn-primary btn-block">Verify</button>
+                                            </div>
+                                        </form>
+                                        <div class="new-account mt-3">
+                                            <p>
+                                                Don't have an account
+                                                <a class="text-primary" href="/sign-up">Sign up</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--****** Scripts *****-->
+        <%- include('../partials/scripts'); %>
+        <script>
+            $(document).ready(function () {
+                $("#btn-verify").click(function () {
+                    submitForm();
+                });
+            });
+
+            function submitForm() {
+                if (document.getElementById("email").value.trim() === "" && document.getElementById("email").value !== null) {
+                    $("#emailError").css("color", "red");
+                    $("#emailError").html("Please enter your Email ID");
+                    $(".form-control").removeClass("border-danger");
+                    $("#email").addClass("border-danger");
+                } else if (checkEmail() === false) {
+                    $("#emailError").css("color", "red");
+                    $("#emailError").html("Enter a valid Email address");
+                    $(".form-control").removeClass("border-danger");
+                    $("#email").addClass("border-danger");
+                } else {
+                    formAjaxSubmit();
+                }
+            }
+            function formAjaxSubmit() {
+                var token = $("#token").val();
+                var email = $("#email").val();
+                $.ajax({
+                    url: "verify",
+                    method: "post",
+                    data: {
+                        email,
+                        token,
+                    },
+                    dataType: "json",
+                    success: function (msg) {
+                        customSweetAlert(msg);
+                        console.log(msg);
+                    },
+                    error: function (error) {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            text: error,
+                        });
+                    },
+                });
+            }
+
+            function checkEmail() {
+                var email = $("#email").val();
+                if (email.indexOf(".") > 2 && email.indexOf("@") > 0) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+            $("#email").on("blur", function () {
+                var email = $("#email").val();
+                if (email == "") {
+                    $("#emil").addClass("border-danger");
+                    $("#emailError").css("color", "red");
+                    $("#emailError").html("Enter a valid Email address");
+                    return false;
+                } else if (!checkEmail()) {
+                    $("#emil").addClass("border-danger");
+                    $("#emailError").css("color", "red");
+                    $("#emailError").html("Enter a valid Email address");
+                    return true;
+                } else if (checkEmail()) {
+                    $("#emailError").css("color", "red");
+                    $("#emil").addClass("border-success");
+                    $("#emailError").html("");
+                    return false;
+                }
+            });
+            function customSweetAlert(data) {
+                let fireOption = {
+                    icon: `${data.type}`,
+                    html: `${data.message}`,
+                };
+                if (data.checkEmail == "not_verified") {
+                    fireOption.title = `<strong>Not Verified</strong>`;
+                    fireOption.confirmButtonText = `<a class="text-white" href="${data.link}">Verify</a>`;
+                    fireOption.showCloseButton = true;
+                    fireOption.showCancelButton = false;
+                }
+                if (data.checkVerify == "verified") {
+                    fireOption.html = fireOption.html + ` <br>please sign in again`;
+                    fireOption.confirmButtonText = `<a class="text-white" href= "/sign-in">Sign in</a>`;
+                }
+
+                Swal.fire(fireOption);
+            }
+        </script>
+    </body>
+</html>

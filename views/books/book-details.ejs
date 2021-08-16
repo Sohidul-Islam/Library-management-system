@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('../partials/head.ejs'); %>
+        <link rel="stylesheet" href="/css/custom-rating.css" />
+    </head>
+
+    <body>
+        <!--*******************
+        Preloader start
+    ********************-->
+        <div id="preloader">
+            <div class="sk-three-bounce">
+                <div class="sk-child sk-bounce1"></div>
+                <div class="sk-child sk-bounce2"></div>
+                <div class="sk-child sk-bounce3"></div>
+            </div>
+        </div>
+        <!--*******************
+        Preloader end
+    ********************-->
+
+        <!--**********************************
+        Main wrapper start
+    ***********************************-->
+        <div id="main-wrapper">
+            <!--**********************************
+            Nav header start
+        ***********************************-->
+            <%- include('../partials/nav-header.ejs'); %>
+
+            <!--**********************************
+            Nav header end
+        ***********************************-->
+
+            <!--**********************************
+            Chat box start
+        ***********************************-->
+
+            <!--**********************************
+            Chat box End
+        ***********************************-->
+
+            <!--**********************************
+            Header start
+        ***********************************-->
+            <%- include('../partials/header.ejs'); %>
+
+            <!--**********************************
+            Header end ti-comment-alt
+        ***********************************-->
+
+            <!--**********************************
+            Sidebar start
+        ***********************************-->
+            <%- include('../partials/sidebar.ejs'); %>
+
+            <!--**********************************
+            Sidebar end
+        ***********************************-->
+
+            <!--**********************************
+            Content body start
+        ***********************************-->
+            <div class="content-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-xl-3">
+                                            <!-- Tab panes -->
+                                            <div class="tab-content">
+                                                <div role="tabpanel" class="tab-pane fade show active" id="first">
+                                                    <img class="img-fluid" src="/upload/<%= item.cover %>" alt="" />
+                                                </div>
+                                                <div role="tabpanel" class="tab-pane fade" id="second">
+                                                    <img class="img-fluid" src="/images/product/Book-cover-page-7-CRC.png" alt="" />
+                                                </div>
+                                                <div role="tabpanel" class="tab-pane fade" id="third">
+                                                    <img class="img-fluid" src="/images/product/Free-Toddlers-Story-Book-Cover-Template.jpeg" alt="" />
+                                                </div>
+                                                <div role="tabpanel" class="tab-pane fade" id="for">
+                                                    <img class="img-fluid" src="/images/product/Book-cover-page-7-CRC.png" alt="" />
+                                                </div>
+                                            </div>
+                                            <!-- <div class="tab-slide-content new-arrival-product mb-4 mb-xl-0">
+                                                <ul class="nav slide-item-list mt-3" role="tablist">
+                                                    <li role="presentation" class="show">
+                                                        <a href="#first" role="tab" data-toggle="tab">
+                                                            <img class="img-fluid" src="/images/tab/Free-Toddlers-Story-Book-Cover-Template.jpeg" alt="" width="50" />
+                                                        </a>
+                                                    </li>
+                                                    <li role="presentation">
+                                                        <a href="#second" role="tab" data-toggle="tab"><img class="img-fluid" src="/images/tab/Book-cover-page-7-CRC.png" alt="" width="50" /></a>
+                                                    </li>
+                                                    <li role="presentation">
+                                                        <a href="#third" role="tab" data-toggle="tab"
+                                                            ><img class="img-fluid" src="/images/tab/Free-Toddlers-Story-Book-Cover-Template.jpeg" alt="" width="50"
+                                                        /></a>
+                                                    </li>
+                                                    <li role="presentation">
+                                                        <a href="#for" role="tab" data-toggle="tab"><img class="img-fluid" src="/images/tab/Book-cover-page-7-CRC.png" alt="" width="50" /></a>
+                                                    </li>
+                                                </ul>
+                                            </div> -->
+                                        </div>
+                                        <div class="col-xl-9 col-sm-12">
+                                            <div class="product-detail-content">
+                                                <div class="new-arrival-content pr">
+                                                    <h4><%= item.item_name %></h4>
+                                                    <input type="text" id="item_id" value="<%= item.item_id %>" hidden />
+                                                    <input type="text" id="bookName" value="<%=  item.file_name%>" hidden />
+                                                    <span class="badge badge-success light"><%= item.type %></span>
+                                                    <div class="star-rating mb-2">
+                                                        <ul class="produtct-detail-tag">
+                                                            <% for(var i=0; i<5; i++) { if(i <item.avg_rating ) { %>
+                                                            <li><i class="fa fa-star"></i></li>
+                                                            <% }else{ %>
+                                                            <li><i class="fa fa-star text-gray" style="color: #6c757d;"></i></li>
+                                                            <% } }%>
+                                                        </ul>
+                                                        <span class="review-text">(<%= item.total_rating %> reviews) / </span>
+                                                        <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#addReviewModal" id="btn-add-review-list">
+                                                            Write a review?
+                                                        </button>
+                                                    </div>
+                                                    <p class="price"><span class="badge badge-lg light badge-danger">Free</span></p>
+                                                    <p>
+                                                        <strong>Author:</strong>
+                                                        <span class="item"><%= item.author_name %></span>
+                                                    </p>
+                                                    <% if ( item.isbn != 'null' ) { %>
+                                                    <p><strong>ISBN NO:</strong> <span class="item"><%= item.isbn %></span></p>
+                                                    <% } %>
+                                                    <p><strong>Language:</strong> <span class="item"><%= item.language %></span></p>
+                                                    <p><strong>Edition:</strong> <span class="item"><%= item.edition %></span></p>
+                                                    <p><strong>Pages:</strong> <span class="item"><%= item.pages %></span></p>
+                                                    <p><strong>Published:</strong> <span class="item"><%= item.edition %></span></p>
+                                                    <p><strong>Readers:</strong> <span class="item"><%= item.reader %></span></p>
+                                                    <p>
+                                                        Category :&nbsp;&nbsp;
+                                                        <span class="badge badge-success light"><%= item.category_name %></span>
+                                                    </p>
+                                                    <p class="text-content"><%= item.desc %></p>
+                                                    <div class="shopping-cart mt-3">
+                                                        <a class="btn btn-primary btn-lg" href="#"><i class="fas fa-download mr-2"></i>Download</a>
+                                                        <a class="btn btn-primary btn-lg" href="/pdf"><i class="fas fa-book-open mr-2"></i>Read</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <%- include('./addReviewModal.ejs'); %> <%- include('./updateReviewModal.ejs'); %>
+                                        <div class="container-fluid">
+                                            <div class="form-head d-flex mb-5 align-items-start">
+                                                <ul class="nav nav-pills review-tab">
+                                                    <li class="nav-item">
+                                                        <a href="#navpills-1" class="nav-link active" data-toggle="tab" aria-expanded="false">ALL REVIEW</a>
+                                                    </li>
+                                                    <li class="nav-item" id="myReview">
+                                                        <a href="#navpills-2" class="nav-link" data-toggle="tab" aria-expanded="false">MY REVIEW</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xl-12">
+                                                    <div class="tab-content">
+                                                        <div id="navpills-1" class="tab-pane active"></div>
+                                                        <div id="navpills-2" class="tab-pane"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="d-md-flex d-block align-items-center mt-4" id="paginationText"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--**********************************
+            Content body end
+        ***********************************-->
+
+            <!--**********************************
+            Footer start
+        ***********************************-->
+
+            <!--**********************************
+            Footer end
+        ***********************************-->
+
+            <!--**********************************
+           Support ticket button start
+        ***********************************-->
+
+            <!--**********************************
+           Support ticket button end
+        ***********************************-->
+        </div>
+        <!--**********************************
+        Main wrapper end
+    ***********************************-->
+
+        <!--**********************************
+        Scripts
+    ***********************************-->
+        <!-- Required vendors -->
+        <%- include('../partials/scripts.ejs'); %>
+
+        <!-- Apex Chart -->
+        <script src="/vendor/apexchart/apexchart.js"></script>
+
+        <script src="/vendor/highlightjs/highlight.pack.min.js"></script>
+        <script src="/js/ajax/userConfig.js"></script>
+        <script src="/js/ajax/userConfig.js"></script>
+        <script src="/js/ajax/ajaxBookDetails.js"></script>
+        <script></script>
+
+        <!-- Circle progress -->
+    </body>
+</html>

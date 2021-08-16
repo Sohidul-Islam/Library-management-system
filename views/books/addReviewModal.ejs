@@ -1,0 +1,42 @@
+<div class="modal fade" id="addReviewModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Review</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <form id="addNewReviewForm">
+                    <div class="form-group">
+                        <label>Item Name</label>
+                        <input class="form-control" id="review_item_id" type="text" value="<%= item.item_id %>" name="item_id" hidden />
+                        <input class="form-control access_token" type="text" name="access_token" hidden />
+                        <input class="form-control user_id" type="text" name="user_id" hidden />
+                        <input class="form-control url" type="text" name="url" hidden />
+                        <input class="form-control" type="text" value="<%= item.item_name %>" readonly />
+                    </div>
+                    <div class="form-group">
+                        <div class="custom-rating-system">
+                            <input type="radio" name="review_star" id="item_rate-5" value="5" />
+                            <label for="item_rate-5" class="fas fa-star"></label>
+                            <input type="radio" name="review_star" id="item_rate-4" value="4" />
+                            <label for="item_rate-4" class="fas fa-star"></label>
+                            <input type="radio" name="review_star" id="item_rate-3" value="3" />
+                            <label for="item_rate-3" class="fas fa-star"></label>
+                            <input type="radio" name="review_star" id="item_rate-2" value="2" />
+                            <label for="item_rate-2" class="fas fa-star"></label>
+                            <input type="radio" name="review_star" id="item_rate-1" value="1" />
+                            <label for="item_rate-1" class="fas fa-star"></label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <textarea cols="48" name="review_text" id="review_text" placeholder="Describe your experience.."></textarea>
+                    </div>
+                    <div class="form-group mt-4">
+                        <button type="button" class="btn btn-primary" id="item_review_btn">Review</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

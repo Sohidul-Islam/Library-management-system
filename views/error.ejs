@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+    <head>
+        <%- include('./partials/head'); %>
+    </head>
+
+    <body class="h-100">
+        <div class="authincation h-100">
+            <div class="container h-100">
+                <div class="row justify-content-center h-100 align-items-center">
+                    <div class="col-md-5">
+                        <div class="form-input-content text-center error-page">
+                            <h1 class="error-text font-weight-bold"><%= error.status %></h1>
+                            <h4><i class="fa fa-exclamation-triangle text-warning"></i> <%= message %></h4>
+                            <p>You may have mistyped the address or the page may have moved.</p>
+                            <!-- <p><pre><%= error.stack %></pre></p> -->
+                            <div>
+                                <a class="btn btn-primary" href="/index">Back to Home</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <!--****** Scripts *****-->
+    <%- include('./partials/scripts'); %>
+</html>

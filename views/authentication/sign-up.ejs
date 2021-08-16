@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+    <head>
+        <%- include('../partials/head.ejs'); %>
+    </head>
+
+    <body class="h-100">
+        <div class="authincation h-100">
+            <div class="container h-100">
+                <div class="row justify-content-center h-100 align-items-center">
+                    <div class="col-md-6">
+                        <div class="authincation-content">
+                            <div class="row no-gutters">
+                                <div class="col-xl-12">
+                                    <div class="auth-form">
+                                        <h4 class="text-center mb-4">Sign up your account</h4>
+                                        <form id="sign-up">
+                                            <div class="form-group">
+                                                <label class="mb-1"><strong>Email</strong></label>
+                                                <input name="email" id="email" type="email" class="form-control" placeholder="hello@example.com" />
+                                            </div>
+                                            <div class="form-group">
+                                                <div id="emailError" class="text-left" style="font-weight: bold; text-align: center; font-size: 10pt"></div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="mb-1"><strong>Password</strong></label>
+                                                <div class="input-group">
+                                                    <input name="password" onkeyup="passwordChecker()" id="password" type="password" class="form-control" />
+                                                    <span class="input-group-text rounded-0 view_pass" style="cursor: pointer" id="eye"><i class="fas fa-eye"></i></span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="text-left" id="password_start_err" style="font-size: 10pt; padding-left: 0px"></div>
+
+                                                <div class="text-left" id="message" style="font-size: 10pt"></div>
+
+                                                <div class="text-left" id="password_number_err" style="font-size: 10pt"></div>
+
+                                                <div class="text-left" id="password_lower_err" style="font-size: 10pt"></div>
+
+                                                <div class="text-left" id="password_upper_err" style="font-size: 10pt"></div>
+
+                                                <div class="text-left" id="message5" style="font-size: 10pt"></div>
+
+                                                <div class="text-left" id="message6" style="font-size: 10pt; padding-left: 0px"></div>
+
+                                                <div class="text-left" id="message7" style="font-size: 10pt; padding-left: 0px"></div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="mb-1"><strong>Confirm Password</strong></label>
+                                                <div class="input-group">
+                                                    <input name="verify_password" id="verify_password" type="password" class="form-control" />
+                                                    <span class="input-group-text rounded-0 view_pass" style="cursor: pointer" id="c_eye"><i class="fas fa-eye"></i></span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div id="message1" style="font-weight: bold; text-align: center; font-size: 10pt"></div>
+                                            </div>
+                                            <div class="form-group">
+                                                <button id="btn-signup" type="button" class="btn btn-primary btn-block">Sign me up</button>
+                                            </div>
+                                        </form>
+                                        <div class="new-account mt-3">
+                                            <p>
+                                                Already have an account?
+                                                <a class="text-primary" href="/sign-in">Sign in</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--****** Scripts *****-->
+        <%- include('../partials/scripts'); %>
+        <script>
+            $(document).ready(function () {
+                $("#eye").bind("mousedown touchstart", function () {
+                    $("#password").attr("type", "text");
+                });
+                $("#eye").bind("mouseup touchend", function () {
+                    $("#password").attr("type", "password");
+                });
+                $("#c_eye").bind("mousedown touchstart", function () {
+                    $("#verify_password").attr("type", "text");
+                });
+                $("#c_eye").bind("mouseup touchend", function () {
+                    $("#verify_password").attr("type", "password");
+                });
+
+                $("#btn-signup").click(function () {
+                    submitForm();
+                });
+            });
+
+            function passwordChecker() {
+                $("#verify_password").val("");
+                $("#password_start_err").html("");
+                $("#message10").html("");
+                $("#message").html("");
+                $("#password_number_err").html("");
+                $("#password_lower_err").html("");
+                $("#password_upper_err").html("");
+                $("#message5").html("");
+                $("#message6").html("");
+                $("#message7").html("");
+                if ($("#password").val().length >= 0) {
+                    if (password_validation() === true) {
+                        // $("#message").html("");
+
+                        return true;
+                    }
+                }
+            }
+
+            function password_validation() {
+                var password = $("#password").val();
+                if (!password.match(/^(?=.{8,})(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$/)) {
+                    $("#password_start_err").css("color", "red");
+                    $("#password_start_err").html("Your password must contain:-");
+                    if (!password.match(/^(?=.{8,}).*$/)) {
+                        $("#message").css("color", "red");
+                        $("#message").html(" - minimum 8 characters.");
+                    }
+                    if (!password.match(/^(?=.*[0-9]).*$/)) {
+                        $("#password_number_err").css("color", "red");
+                        $("#password_number_err").html(" - at least 1 Number.");
+                    }
+                    if (!password.match(/^(?=.*[a-z]).*$/)) {
+                        $("#password_lower_err").css("color", "red");
+                        $("#password_lower_err").html(" - at least 1 Lowercase character.");
+                    }
+                    if (!password.match(/^(?=.*[A-Z]).*$/)) {
+                        $("#password_upper_err").css("color", "red");
+                        $("#password_upper_err").html(" - at least 1 Uppercase character.");
+                    }
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+            function submitForm() {
+                if (document.getElementById("email").value.trim() === "" && document.getElementById("email").value !== null) {
+                    $("#message1").css("color", "red");
+                    $("#message1").html("Please enter your Email ID");
+                    $(".form-control").removeClass("border-danger");
+                    $("#email").addClass("border-danger");
+                } else if (checkEmail() === false) {
+                    $("#message1").css("color", "red");
+                    $("#message1").html("Enter a valid Email address");
+                    $(".form-control").removeClass("border-danger");
+                    $("#email").addClass("border-danger");
+                } else if (document.getElementById("password").value.trim() === "" && document.getElementById("password").value !== null) {
+                    $("#message1").css("color", "red");
+                    $("#message1").html("Please enter your Password");
+                } else if (document.getElementById("password").value.trim() === "" && document.getElementById("verify_password").value !== null) {
+                    $("#message1").css("color", "red");
+                    $("#message1").html("Please confirm your password");
+                } else if ($("#password").val() !== $("#verify_password").val()) {
+                    $("#message1").css("color", "red");
+                    $("#message1").html("Confirm password and password must be same");
+                } else {
+                    formAjaxSubmit();
+                }
+            }
+            function formAjaxSubmit() {
+                var password = $("#password").val();
+                var email = $("#email").val();
+                $.ajax({
+                    url: "sign-up",
+                    method: "post",
+                    data: {
+                        email,
+                        password,
+                    },
+                    dataType: "json",
+                    success: function (msg) {
+                        Swal.fire("Good job!", "Your account has been created. please check your mail for verification code", "success");
+                        console.log(msg);
+                    },
+                    error: function (error) {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            text: error,
+                        });
+                    },
+                });
+            }
+
+            function checkEmail() {
+                var email = $("#email").val();
+                if (email.indexOf(".") > 2 && email.indexOf("@") > 0) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+            $("#email").on("blur", function () {
+                var email = $("#email").val();
+                if (email == "") {
+                    $("#emailError").css("color", "red");
+                    $("#emailError").html("Enter a valid Email address");
+                    return false;
+                } else {
+                    $.ajax({
+                        url: "/sign-up/check-email",
+                        type: "post",
+                        dataType: "json",
+                        data: {
+                            email,
+                        },
+                        success: function (response) {
+                            if (response.checkEmail == "exist") {
+                                $("#emailError").css("color", "red");
+                                $("#email").addClass("border-danger");
+                                $("#emailError").html("Email already exist");
+                            } else {
+                                $("#email").removeClass("border-danger");
+                                $("#emailError").html("");
+                            }
+                        },
+                    });
+                }
+            });
+        </script>
+    </body>
+</html>

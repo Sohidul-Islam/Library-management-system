@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('../partials/head.ejs'); %>
+        <script src="http://localhost:4000/WebViewer/lib/webviewer.min.js"></script>
+    </head>
+
+    <body>
+        <!--**********  Preloader start *************-->
+        <div id="preloader">
+            <div class="sk-three-bounce">
+                <div class="sk-child sk-bounce1"></div>
+                <div class="sk-child sk-bounce2"></div>
+                <div class="sk-child sk-bounce3"></div>
+            </div>
+        </div>
+        <!--******** Preloader end *********-->
+
+        <!--******** Main wrapper start ******-->
+        <div id="main-wrapper">
+            <!--********** Nav header start *********-->
+            <div class="nav-header">
+                <a href="index.html" class="brand-logo">
+                    <img class="logo-abbr" src="./images/logo.png" alt="" />
+                    <img class="logo-compact" src="./images/logo-text.png" alt="" />
+                    <img class="brand-title" src="./images/logo-text.png" alt="" />
+                </a>
+
+                <div class="nav-control">
+                    <div class="hamburger"><span class="line"></span><span class="line"></span><span class="line"></span></div>
+                </div>
+            </div>
+            <!--**********  Nav header end *********-->
+
+            <!--********** Chat box start *********-->
+
+            <!--********* Chat box End *********-->
+
+            <!--****** 
+            Header start ************-->
+            <%- include('../partials/header.ejs'); %>
+
+            <!--********** Header end ti-comment-alt*********-->
+
+            <!--********** Sidebar start *********-->
+            <%- include('../partials/sidebar.ejs'); %>
+
+            <!--********** Sidebar end ********-->
+
+            <!--********** Content body start *********-->
+            <div class="content-body">
+                <div class="container-fluid">
+                    <div id="viewer" style="width: 100%; height: 650px; margin: 0 auto"></div>
+                </div>
+            </div>
+            <!--********** Content body end *********-->
+        </div>
+        <!--********** Main wrapper end *********-->
+
+        <!--********** Scripts *********-->
+        <!-- Required vendors -->
+        <%- include('../partials/scripts.ejs'); %>
+
+        <!-- Apex Chart -->
+        <script src="/vendor/apexchart/apexchart.js"></script>
+
+        <script src="/vendor/highlightjs/highlight.pack.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.0.943/pdf.min.js"></script>
+        <script src="/js/ajax/userConfig.js"></script>
+        <script>
+            var bookData = JSON.parse(localStorage.getItem("bookData"));
+
+            WebViewer(
+                {
+                    path: "WebViewer/lib", // path to the PDFTron 'lib' folder on your server
+                    licenseKey: "Insert commercial license key here after purchase",
+                    initialDoc: `http://localhost:4000/upload/${bookData.bookName}`,
+                    // initialDoc: '/path/to/my/file.pdf', // You can also use documents on your server
+                },
+                document.getElementById("viewer")
+            ).then((instance) => {
+                const docViewer = instance.Core.documentViewer;
+                const annotManager = instance.Core.annotationManager;
+                // call methods from instance, docViewer and annotManager as needed
+
+                // you can also access major namespaces from the instance as follows:
+                // const Tools = instance.Core.Tools;
+                // const Annotations = instance.Core.Annotations;
+                instance.UI.disableElements(["downloadButton"]);
+                instance.UI.disableElements(["printButton"]);
+                instance.UI.disableElements(["highlightToolGroupButton"]);
+                instance.UI.disableElements(["underlineToolGroupButton"]);
+                instance.UI.disableElements(["strikeoutToolGroupButton"]);
+                instance.UI.disableElements(["squigglyToolGroupButton"]);
+                instance.UI.disableElements(["stickyToolGroupButton"]);
+                instance.UI.disableElements(["freeTextToolGroupButton"]);
+                instance.UI.disableElements(["shapeToolGroupButton"]);
+                instance.UI.disableElements(["freeHandToolGroupButton"]);
+                instance.UI.disableElements(["eraserToolButton"]);
+                instance.UI.disableElements(["header"]);
+                instance.UI.disableElements(["viewControlsButton"]);
+                instance.UI.disableElements(["leftPanelButton"]);
+                instance.UI.disableElements(["searchButton"]);
+                instance.UI.disableElements(["menuButton"]);
+                instance.UI.disableElements(["pageNavOverlay"]);
+                instance.UI.disableFeatures([instance.UI.Feature.TextSelection]);
+                instance.UI.setTheme("light");
+
+                docViewer.addEventListener("documentLoaded", () => {
+                    // call methods relating to the loaded document
+                });
+            });
+        </script>
+        <!-- <script src="/js/ajax/ajaxBooks.js"></script> -->
+        <!-- Circle progress -->
+    </body>
+</html>

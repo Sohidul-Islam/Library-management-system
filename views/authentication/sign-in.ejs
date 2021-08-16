@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+    <head>
+        <%- include('../partials/head.ejs'); %>
+    </head>
+    <body class="h-100">
+        <div class="authincation h-100">
+            <div class="container h-100">
+                <div class="row justify-content-center h-100 align-items-center">
+                    <div class="col-md-6">
+                        <div class="authincation-content">
+                            <div class="row no-gutters">
+                                <div class="col-xl-12">
+                                    <div class="auth-form">
+                                        <h4 class="text-center mb-4">Sign in your account</h4>
+                                        <form id="signin-form">
+                                            <div class="form-group">
+                                                <label class="mb-1"><strong>Email</strong></label>
+                                                <input type="email" class="form-control" id="email" name="email" />
+                                            </div>
+                                            <div class="form-group">
+                                                <div id="emailError" class="text-left" style="font-weight: bold; text-align: center; font-size: 10pt"></div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="mb-1"><strong>Password</strong></label>
+                                                <div class="input-group">
+                                                    <input name="password" id="password" type="password" class="form-control" />
+                                                    <span class="input-group-text rounded-0 view_pass" style="cursor: pointer" id="eye"><i class="fas fa-eye"></i></span>
+                                                </div>
+                                            </div>
+                                            <div class="form-row d-flex justify-content-between mt-4 mb-2">
+                                                <div class="form-group">
+                                                    <div class="custom-control custom-checkbox ml-1">
+                                                        <input type="checkbox" class="custom-control-input" id="basic_checkbox_1" />
+                                                        <label class="custom-control-label" for="basic_checkbox_1">Remember my preference</label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <a href="/page-forgot-password">Forgot Password?</a>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div id="message1" style="font-weight: bold; text-align: center; font-size: 10pt"></div>
+                                            </div>
+                                            <div class="text-center">
+                                                <button id="btn-signin" type="button" class="btn btn-primary btn-block">Sign me In</button>
+                                            </div>
+                                        </form>
+                                        <div class="new-account mt-3">
+                                            <p>Don't have an account? <a class="text-primary" href="/sign-in">Sign up</a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--****** Scripts *****-->
+        <%- include('../partials/scripts'); %>
+        <script>
+            $(document).ready(function () {
+                $("#eye").bind("mousedown touchstart", function () {
+                    $("#password").attr("type", "text");
+                });
+                $("#eye").bind("mouseup touchend", function () {
+                    $("#password").attr("type", "password");
+                });
+                $("#c_eye").bind("mousedown touchstart", function () {
+                    $("#verify_password").attr("type", "text");
+                });
+                $("#c_eye").bind("mouseup touchend", function () {
+                    $("#verify_password").attr("type", "password");
+                });
+                $("#btn-signin").click(function () {
+                    submitForm();
+                });
+            });
+
+            function submitForm() {
+                if (document.getElementById("email").value.trim() === "" && document.getElementById("email").value !== null) {
+                    $("#message1").css("color", "red");
+                    $("#message1").html("Please enter your Email ID");
+                    $(".form-control").removeClass("border-danger");
+                    $("#email").addClass("border-danger");
+                } else if (document.getElementById("password").value.trim() === "" && document.getElementById("password").value !== null) {
+                    $("#message1").css("color", "red");
+                    $("#message1").html("Please enter your Password");
+                } else {
+                    formAjaxSubmit();
+                }
+            }
+            function formAjaxSubmit() {
+                var password = $("#password").val();
+                var email = $("#email").val();
+                $.ajax({
+                    url: "/sign-in",
+                    method: "post",
+                    data: {
+                        email,
+                        password,
+                    },
+                    dataType: "json",
+                    success: function (response) {
+                        console.log(response);
+                        localStorage.setItem("userData", JSON.stringify(response.userData));
+                        customAlert(response);
+                    },
+                    error: function (error) {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            text: error,
+                        });
+                    },
+                });
+            }
+
+            function checkEmail() {
+                var email = $("#email").val();
+                if (email.indexOf(".") > 2 && email.indexOf("@") > 0) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+            $("#email").on("blur", function () {
+                var email = $("#email").val();
+                if (email == "") {
+                    $("#emil").addClass("border-danger");
+                    $("#emailError").css("color", "red");
+                    $("#emailError").html("Enter a valid Email address");
+                    return false;
+                } else if (!checkEmail()) {
+                    $("#emil").addClass("border-danger");
+                    $("#emailError").css("color", "red");
+                    $("#emailError").html("Enter a valid Email address");
+                    return true;
+                } else if (checkEmail()) {
+                    $("#emailError").css("color", "red");
+                    $("#emil").addClass("border-success");
+                    $("#emailError").html("");
+                    return false;
+                }
+            });
+            function customAlert(params) {
+                Swal.fire({
+                    icon: params.type,
+                    title: params.title,
+                    html: `<div class="mb-2">${params.message} </div><a class=" btn btn-outline-${params.btnType}" href="${params.link}">${params.link_text}</a>`,
+                    showConfirmButton: false,
+                });
+            }
+        </script>
+    </body>
+</html>
